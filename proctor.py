@@ -147,7 +147,7 @@ camera_matrix = np.array(
                          [0, 0, 1]], dtype = "double"
                          )
 
-while(True):
+while True:
     ret, img = cap.read()
     rects = find_faces(img, face_model)
     for rect in rects:
@@ -156,16 +156,16 @@ while(True):
         cv2.putText(img, 'Press r to record Mouth distances', (30, 30), font,
                     1, (0, 255, 255), 2)
         cv2.imshow("Output", img)
-    if cv2.waitKey(3):
-        for i in range(100):
-            for i, (p1, p2) in enumerate(outer_points):
-                d_outer[i] += shape[p2][1] - shape[p1][1]
-            for i, (p1, p2) in enumerate(inner_points):
-                d_inner[i] += shape[p2][1] - shape[p1][1]
-        break
+    for i in range(100):
+        for i, (p1, p2) in enumerate(outer_points):
+            d_outer[i] += shape[p2][1] - shape[p1][1]
+        for i, (p1, p2) in enumerate(inner_points):
+            d_inner[i] += shape[p2][1] - shape[p1][1]
+    break
 cv2.destroyAllWindows()
 d_outer[:] = [x / 100 for x in d_outer]
 d_inner[:] = [x / 100 for x in d_inner]
+
 
 while(True):
     ret, img = cap.read()
@@ -251,8 +251,7 @@ while(True):
             cv2.putText(img, str(ang1), tuple(p1), font, 2, (128, 255, 255), 3)
             cv2.putText(img, str(ang2), tuple(x1), font, 2, (255, 255, 128), 3)
         cv2.imshow('img', img)
-
-    cv2.imshow("Output", img)
+    # cv2.imshow("Output", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 cv2.destroyAllWindows()
